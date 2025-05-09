@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Materi Fundamental Animasi Python Berbasis Web dengan Kuis</title>
+<style>
+  body {
+    margin: 0;
+    padding: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1e1e2f;
+    color: #e0e0e0;
+    max-width: 350px;
+    height: 600px;
+    overflow-y: auto;
+  }
+  h1, h2, h3 {
+    color: #82aaff;
+    margin-bottom: 0.25rem;
+  }
+  p {
+    line-height: 1.5;
+  }
+  pre {
+    background: #282c34;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    color: #d6deeb;
+  }
+  code {
+    font-family: Consolas, monospace;
+  }
+  a {
+    color: #82aaff;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .section {
+    margin-bottom: 1.5rem;
+  }
+  .note {
+    background: #3a3f58;
+    padding: 0.75rem;
+    border-left: 4px solid #82aaff;
+    margin: 1rem 0;
+  }
+  /* Quiz Styles */
+  #quiz-container {
+    background: #282c34;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+  }
+  #quiz-container h2 {
+    margin-top: 0;
+  }
+  #question {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  .options {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+  }
+  .options li {
+    margin-bottom: 0.5rem;
+  }
+  label {
+    cursor: pointer;
+  }
+  button {
+    background-color: #82aaff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    color: #1e1e2f;
+    font-weight: 700;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    transition: background-color 0.3s ease;
+  }
+  button:hover:not(:disabled) {
+    background-color: #5a82d6;
+  }
+  button:disabled {
+    background-color: #555a75;
+    cursor: not-allowed;
+  }
+  #score-container {
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 1rem;
+    color: #82ff9e;
+  }
+</style>
+</head>
+<body>
+  <h1>Materi Fundamental Animasi Python</h1>
+
+  <div class="section">
+    <h2>Apa itu Animasi?</h2>
+    <p>Animasi adalah proses menampilkan rangkaian gambar atau frame yang mengubah posisi atau keadaan objek secara bertahap untuk menciptakan efek gerakan.</p>
+  </div>
+
+  <div class="section">
+    <h2>Konsep Dasar Animasi di Python</h2>
+    <p>Animasi umumnya dilakukan dengan mengubah posisi objek secara berkala dan mengupdate tampilan layar. Untuk melakukan ini, Python menggunakan <strong>loop utama</strong> yang:</p>
+    <ul>
+      <li>Menggambar ulang objek pada posisi baru.</li>
+      <li>Mengontrol kecepatan refresh layar (frame rate).</li>
+      <li>Menerima input pengguna jika diperlukan.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Library Populer untuk Animasi di Python</h2>
+    <p>Untuk membuat animasi di Python, salah satu library paling populer adalah <a href="https://www.pygame.org/" target="_blank" rel="noopener">Pygame</a>. Library ini memudahkan pembuatan animasi dan game dengan akses ke grafis dan input.</p>
+  </div>
+
+  <div class="section">
+    <h2>Contoh Animasi Dasar: Bola Memantul dengan Pygame</h2>
+    <p>Berikut adalah contoh kode Python sederhana yang membuat animasi bola memantul di dalam jendela:</p>
+    <pre><code>import pygame
+import sys
+
+pygame.init()
+WIDTH, HEIGHT = 600, 400
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Animasi Bola Memantul")
+
+WHITE = (255, 255, 255)
+RED = (255, 100, 100)
+
+ball_pos = [WIDTH // 2, HEIGHT // 2]
+ball_radius = 20
+ball_speed = [4, 3]
+
+clock = pygame.time.Clock()
+
+while True:
+    screen.fill(WHITE)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+    # Update posisi bola
+    ball_pos[0] += ball_speed[0]
+    ball_pos[1] += ball_speed[1]
+
+    # Pantulkan bola jika menyentuh tepi layar
+    if ball_pos[0] - ball_radius <= 0 or ball_pos[0] + ball_radius >= WIDTH:
+        ball_speed[0] = -ball_speed[0]
+    if ball_pos[1] - ball_radius <= 0 or ball_pos[1] + ball_radius >= HEIGHT:
+        ball_speed[1] = -ball_speed[1]
+
+    pygame.draw.circle(screen, RED, ball_pos, ball_radius)
+    pygame.display.flip()
+    clock.tick(60)
+</code></pre>
+    <div class="note">
+      <strong>Catatan:</strong> Pastikan <code>pygame</code> sudah terinstall dengan menjalankan <code>pip install pygame</code>.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Penjelasan Kode</h2>
+    <ul>
+      <li><code>pygame.init()</code>: Menginisialisasi modul Pygame.</li>
+      <li>Membuat layar dengan ukuran 600x400 piksel.</li>
+      <li>Loop utama berjalan terus menerus untuk mengupdate posisi bola dan menggambar ulang.</li>
+      <li>Bola bergerak dengan kecepatan yang diatur di <code>ball_speed</code>.</li>
+      <li>Bola memantul saat menyentuh tepi dengan mengubah arah kecepatannya.</li>
+      <li>Frame rate dikontrol dengan <code>clock.tick(60)</code> agar animasi lebih halus.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Konsep Penting</h2>
+    <ul>
+      <li><strong>Frame Rate:</strong> Jumlah frame yang digambar per detik. Biasanya 30 - 60 FPS untuk animasi halus.</li>
+      <li><strong>Loop Utama (Main Loop):</strong> Mekanisme inti yang terus-menerus memperbarui animasi dan memproses event.</li>
+      <li><strong>Rendering:</strong> Proses menggambar objek ke layar.</li>
+      <li><strong>Update Posisi:</strong> Mengubah posisi objek berdasarkan kecepatan atau logika lain sebelum digambar ulang.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Pelajari Lebih Lanjut</h2>
+    <p>Untuk belajar lebih lengkap, kunjungi dokumentasi resmi Pygame di <a href="https://www.pygame.org/docs/" target="_blank" rel="noopener">pygame.org/docs</a> dan tutorial-tutorial Python animasi di internet.</p>
+  </div>
+
+  <div id="quiz-container" class="section">
+    <h2>Kuis: Uji Pemahamanmu</h2>
+    <div id="quiz-content">
+      <div id="question">Memuat soal...</div>
+      <ul class="options"></ul>
+      <div>
+        <button id="prev-btn" disabled>Prev</button>
+        <button id="next-btn">Next</button>
+        <button id="submit-btn" style="display:none;">Submit</button>
+      </div>
+      <div id="score-container"></div>
+    </div>
+  </div>
+
+<script>
+  // Quiz questions array
+  const questions = [
+    {
+      question: "Apa itu animasi dalam pemrograman?",
+      options: [
+        "Sekumpulan gambar diam yang ditampilkan sekaligus",
+        "Proses menampilkan gambar secara berurutan untuk menciptakan ilusi gerak",
+        "Membuat game dengan karakter bergerak",
+        "Mencetak gambar di layar"
+      ],
+      answer: 1
+    },
+    {
+      question: "Pada Python, loop utama animasi berfungsi untuk?",
+      options: [
+        "Membuat jendela aplikasi",
+        "Menerima input dari mouse saja",
+        "Mengupdate posisi objek dan menggambar ulang layar secara terus-menerus",
+        "Menutup aplikasi"
+      ],
+      answer: 2
+    },
+    {
+      question: "Library Python yang populer untuk animasi dan game adalah?",
+      options: [
+        "Tkinter",
+        "Matplotlib",
+        "Pygame",
+        "Numpy"
+      ],
+      answer: 2
+    },
+    {
+      question: "Dalam Pygame, fungsi untuk menggambar lingkaran adalah?",
+      options: [
+        "pygame.rect()",
+        "pygame.circle()",
+        "pygame.draw.circle()",
+        "draw.circle()"
+      ],
+      answer: 2
+    },
+    {
+      question: "Frame rate yang umum digunakan agar animasi halus adalah?",
+      options: [
+        "10 FPS",
+        "30 - 60 FPS",
+        "100 FPS",
+        "1 FPS"
+      ],
+      answer: 1
+    },
+    {
+      question: "Apakah fungsi dari fungsi clock.tick(60) di Pygame?",
+      options: [
+        "Mengatur kecepatan bola",
+        "Mengatur jumlah frame per detik pada animasi",
+        "Menutup jendela aplikasi",
+        "Membuat bola memantul"
+      ],
+      answer: 1
+    },
+    {
+      question: "Apa yang terjadi saat kecepatan bola diubah menjadi negatif pada sumbu x?",
+      options: [
+        "Bola bergerak lebih cepat ke kanan",
+        "Bola berhenti",
+        "Bola bergerak ke kiri",
+        "Bola hilang"
+      ],
+      answer: 2
+    },
+    {
+      question: "Bagaimana cara membuat bola memantul di batas layar?",
+      options: [
+        "Mengganti warna bola",
+        "Mengubah arah kecepatan bola saat menyentuh tepi layar",
+        "Membuat bola lebih besar",
+        "Menambah bola baru"
+      ],
+      answer: 1
+    },
+    {
+      question: "Apa arti dari istilah rendering dalam animasi?",
+      options: [
+        "Menggambar objek ke layar",
+        "Menyimpan data objek",
+        "Menghapus objek",
+        "Menangkap input pengguna"
+      ],
+      answer: 0
+    },
+    {
+      question: "Apa yang dimaksud dengan main loop dalam animasi?",
+      options: [
+        "Loop yang hanya berjalan saat program dimulai",
+        "Loop yang mengupdate animasi terus menerus selama aplikasi berjalan",
+        "Loop yang mengatur warna layar",
+        "Loop yang menutup aplikasi"
+      ],
+      answer: 1
+    },
+    {
+      question: "Apa fungsi pygame.display.flip()?",
+      options: [
+        "Memperbarui seluruh layar",
+        "Memindahkan objek",
+        "Menggambar objek baru",
+        "Menutup jendela aplikasi"
+      ],
+      answer: 0
+    },
+    {
+      question: "Berapa ukuran window pada contoh animasi bola memantul sebelumnya?",
+      options: [
+        "800x600",
+        "600x400",
+        "300x200",
+        "1024x768"
+      ],
+      answer: 1
+    },
+    {
+      question: "Kecepatan bola diatur dengan variabel apa di contoh kode?",
+      options: [
+        "ball_speed",
+        "speed_ball",
+        "velocity",
+        "move_speed"
+      ],
+      answer: 0
+    },
+    {
+      question: "Mengapa kita menggunakan pygame.quit() dan sys.exit() pada event keluar?",
+      options: [
+        "Untuk mengakhiri program dengan rapi dan menutup jendela",
+        "Untuk menggambar objek baru",
+        "Untuk mengubah warna layar",
+        "Untuk mempercepat animasi"
+      ],
+      answer: 0
+    },
+    {
+      question: "Apakah Pygame kompatibel dengan semua versi Python?",
+      options: [
+        "Ya, tanpa batasan versi",
+        "Tidak, harus menggunakan versi tertentu saja",
+        "Gratis hanya untuk Python 2",
+        "Hanya berjalan di Linux"
+      ],
+      answer: 1
+    },
+    {
+      question: "Yang bukan bagian dari loop utama animasi adalah?",
+      options: [
+        "Memproses event",
+        "Mengupdate posisi objek",
+        "Membuat jendela baru setiap frame",
+        "Menggambar ulang layar"
+      ],
+      answer: 2
+    },
+    {
+      question: "Bagaimana cara membuat animasi lebih halus?",
+      options: [
+        "Menaikkan frame rate menjadi lebih tinggi (fps)",
+        "Mengurangi ukuran objek",
+        "Menghilangkan background",
+        "Membuat objek diam"
+      ],
+      answer: 0
+    },
+    {
+      question: "Apa yang dimaksud dengan 'update posisi' dalam animasi?",
+      options: [
+        "Memindahkan objek sesuai kecepatan dan arah",
+        "Menggambar objek ke layar",
+        "Menghapus objek dari scene",
+        "Menambah objek baru"
+      ],
+      answer: 0
+    },
+    {
+      question: "Apa tujuan mengontrol frame rate dalam animasi?",
+      options: [
+        "Mengurangi beban CPU dan menjaga animasi berjalan stabil",
+        "Mengubah warna objek",
+        "Menambah jumlah objek",
+        "Memperbesar ukuran objek"
+      ],
+      answer: 0
+    },
+    {
+      question: "Dalam animasi Pygame, apa yang biasanya dilakukan di setiap frame?",
+      options: [
+        "Mengupdate posisi objek dan menggambar ulang layar",
+        "Menginstall modul baru",
+        "Menyimpan file gambar",
+        "Menampilkan pesan popup"
+      ],
+      answer: 0
+    }
+  ];
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+  const totalQuestions = questions.length;
+
+  // Cache DOM
+  const questionEl = document.getElementById('question');
+  const optionsEl = document.querySelector('.options');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const submitBtn = document.getElementById('submit-btn');
+  const scoreContainer = document.getElementById('score-container');
+
+  function loadQuestion() {
+    const q = questions[currentQuestionIndex];
+    questionEl.textContent = `Soal ${currentQuestionIndex + 1}: ${q.question}`;
+    
+    optionsEl.innerHTML = '';
+    q.options.forEach((option, i) => {
+      const li = document.createElement('li');
+      const label = document.createElement('label');
+      label.innerHTML = `
+        <input type="radio" name="option" value="${i}" /> ${option}
+      `;
+      li.appendChild(label);
+      optionsEl.appendChild(li);
+    });
+
+    // Set buttons state
+    prevBtn.disabled = currentQuestionIndex === 0;
+    nextBtn.style.display = currentQuestionIndex === totalQuestions -1 ? 'none' : 'inline-block';
+    submitBtn.style.display = currentQuestionIndex === totalQuestions -1 ? 'inline-block' : 'none';
+
+    scoreContainer.textContent = '';
+  }
+
+  function getSelectedOption() {
+    const options = document.getElementsByName('option');
+    for(let option of options) {
+      if(option.checked) return parseInt(option.value);
+    }
+    return null;
+  }
+
+  function saveAnswer() {
+    const selected = getSelectedOption();
+    if(selected === null) return false;
+    if(selected === questions[currentQuestionIndex].answer) {
+      score++;
+    }
+    return true;
+  }
+
+  prevBtn.addEventListener('click', () => {
+    if(currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      // When going back, do not change score as answers are not saved cumulatively this way.
+      // For simplicity, quiz does not store detailed answer states here.
+      loadQuestion();
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if(saveAnswer()) {
+      currentQuestionIndex++;
+      loadQuestion();
+    } else {
+      alert('Pilih jawaban terlebih dahulu.');
+    }
+  });
+
+  submitBtn.addEventListener('click', () => {
+    if(saveAnswer()) {
+      questionEl.textContent = `Kuis selesai! Skor Anda: ${score} dari ${totalQuestions}`;
+      optionsEl.innerHTML = '';
+      prevBtn.style.display = 'none';
+      nextBtn.style.display = 'none';
+      submitBtn.style.display = 'none';
+
+      scoreContainer.textContent = score >= totalQuestions * 0.8
+        ? 'Selamat! Anda memahami materi dengan baik.'
+        : 'Terus belajar untuk meningkatkan pemahaman Anda.';
+    } else {
+      alert('Pilih jawaban terlebih dahulu.');
+    }
+  });
+
+  loadQuestion();
+</script>
+</body>
+</html>
+
